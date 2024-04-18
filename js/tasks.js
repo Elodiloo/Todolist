@@ -124,6 +124,7 @@ form.addEventListener('submit', function (event) {
 // Fonction pour afficher la liste des tâches sur la page web
 function afficherElementsSurPage(elements) {
     const appDiv = document.getElementById('app');
+    elements.sort((a, b) => a.is_complete - b.is_complete);
 
     // Parcourir tous les éléments de la liste et les afficher sur la page web
     elements.forEach(element => {
@@ -227,4 +228,4 @@ function afficherElementsSurPage(elements) {
 
 }
 
-///hdhgkdkb o
+
