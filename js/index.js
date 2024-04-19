@@ -1,5 +1,5 @@
-let btn = document.getElementById('btn');
-let prenom = document.getElementById("prenom");
+const btn = document.getElementById('btn');
+const prenom = document.getElementById("prenom");
 
 btn.addEventListener('click', (e) => {
     e.preventDefault();

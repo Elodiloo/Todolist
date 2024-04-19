@@ -5,13 +5,13 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log(tasks[0].todolist);
             const appDiv = document.getElementById('app');
 
-            let totalTasks = tasks[0].todolist.length;
-            let completedTasks = tasks[0].todolist.filter(task => task.is_complete).length;
-            let pendingTasks = totalTasks - completedTasks;
+            const totalTasks = tasks[0].todolist.length;
+            const completedTasks = tasks[0].todolist.filter(task => task.is_complete).length;
+            const pendingTasks = totalTasks - completedTasks;
 
             const statsContainer = document.createElement('div');
             const statsHTML = `
-                <h1 style="text-align: center;">Nombre total de tâches: ${totalTasks}</h1>
+                <h1 id="total-tasks" style="text-align: center;">Nombre total de tâches: ${totalTasks}</h1>
                 <h2 id="completed-tasks" style="text-align: center;">Tâches terminées: ${completedTasks}</h2>
                 <h2 id="pending-tasks" style="text-align: center;">Tâches à faire: ${pendingTasks}</h2>
             `;
@@ -20,10 +20,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
             appDiv.appendChild(statsContainer);
 
-            const completedTasksElement = document.getElementById('completed-tasks');
+            const completedTasksElement = statsContainer.querySelector('#completed-tasks');
             completedTasksElement.style.color = 'green';
 
-            const pendingTasksElement = document.getElementById('pending-tasks');
+            const pendingTasksElement = statsContainer.querySelector('#pending-tasks');
             pendingTasksElement.style.color = 'red';
 
             const space = document.createElement('div');
@@ -43,7 +43,6 @@ document.addEventListener('DOMContentLoaded', function () {
             progressBar.style.height = '100%';
             progressBar.style.background = 'linear-gradient(to right, #4caf50, #8bc34a)';
             progressBar.style.borderRadius = '15px';
-
 
             progressBarContainer.appendChild(progressBar);
             appDiv.appendChild(progressBarContainer);

@@ -8,34 +8,20 @@ fetch('http://localhost:3000/todos')
             .catch(error => console.error("Erreur:", error));
     })
 
-// Création du formulaire
 const form = document.createElement('form');
-form.id = 'addTaskForm';
 form.style.width = '100%';
 
-form.addEventListener('mouseover', function () {
-    form.classList.add('form-control:focus');
-});
-form.addEventListener('mouseout', function () {
-    form.classList.remove('form-control:focus');
-});
-
-
-// Avec une entrée pour la tâche
 const taskInput = document.createElement('input');
 taskInput.type = 'text';
 taskInput.id = 'taskText';
 taskInput.required = true;
 taskInput.placeholder = 'Nom de la tâche à ajouter';
-taskInput.style.flex = '1';
-taskInput.style.width = '85%';
+taskInput.style.width = '100%';
 
-// Pareil pour les tags
 const tagsInput = document.createElement('input');
 tagsInput.type = 'text';
 tagsInput.id = 'tags';
 tagsInput.placeholder = 'Tags (séparés par des virgules)';
-tagsInput.style.flex = '1';
 tagsInput.style.width = '85%';
 
 
@@ -76,7 +62,6 @@ const space2 = document.createElement('div');
 space2.style.marginBottom = '50px';
 appDiv.appendChild(space2);
 
-// Pour soumettre le formulaire
 form.addEventListener('submit', function (event) {
     event.preventDefault();
 
@@ -87,13 +72,12 @@ form.addEventListener('submit', function (event) {
         text: taskText,
         is_complete: false,
         created_at: new Date(),
-        Tags: tagsText.split(',').map(tag => tag.trim())
+        Tags: tagsText.split(',')
     };
 
     const status = newTask.is_complete ? 'Terminée' : 'À faire';
     console.log(`Statut de la nouvelle tâche : ${status}`)
 
-    // Faire une requête POST au serveur pour ajouter la nouvelle tâche
     fetch('http://localhost:3000/todos', {
         method: 'POST',
         headers: {
@@ -109,13 +93,11 @@ form.addEventListener('submit', function (event) {
         .catch(error => console.error('Erreur :', error));
 });
 
-// Fonction pour afficher la liste des tâches sur la page web
 function afficherElementsSurPage(elements) {
     const appDiv = document.getElementById('app');
     elements.sort((a, b) => a.is_complete - b.is_complete);
 
     elements.forEach(element => {
-        // Création du conteneur principal pour chaque tâche avec la classe "card" de Bootstrap
         const taskCard = document.createElement('div');
         taskCard.classList.add('card', 'mb-3');
 
@@ -125,7 +107,6 @@ function afficherElementsSurPage(elements) {
             taskCard.classList.add('bg-warning');
         }
 
-        // Création du contenu de la carte avec la classe "card-body" de Bootstrap
         const cardBody = document.createElement('div');
         cardBody.classList.add('card-body');
 
@@ -139,23 +120,20 @@ function afficherElementsSurPage(elements) {
 
         cardBody.addEventListener('mouseout', function () {
             if (element.is_complete) {
-                cardBody.style.backgroundColor = ''; // Réinitialise la couleur de fond lorsque la souris quitte la div
+                cardBody.style.backgroundColor = '';
             } else {
                 cardBody.style.backgroundColor = '';
             }
         });
 
-        // Création du conteneur pour le titre de la tâche et "Terminée : Oui/Non"
         const titleAndStatusContainer = document.createElement('div');
         titleAndStatusContainer.classList.add('d-flex', 'justify-content-between');
 
-        // Titre de la tâche avec la classe "card-title" de Bootstrap
         const title = document.createElement('h2');
         title.classList.add('card-title');
         title.textContent = `${element.text}`;
         title.style.color = 'black';
 
-        // Statut "Terminée : Oui/Non" avec la classe "card-text" de Bootstrap
         const is_complete = document.createElement('h4');
         is_complete.classList.add('card-text');
         is_complete.textContent = `Terminée : ${element.is_complete ? 'Oui' : 'Non'}`;
@@ -177,13 +155,11 @@ function afficherElementsSurPage(elements) {
         button.classList.add('btn', 'btn-secondary');
 
         button.addEventListener("click", function () {
-            // Pour récupérer les détails de la tâche 
             const taskTitle = element.text;
             const taskCreatedAt = element.created_at;
             const taskIsComplete = element.is_complete;
             const taskTags = element.Tags;
 
-            // Stocker les détails de la tâche dans localStorage
             const taskDetails = {
                 title: taskTitle,
                 createdAt: taskCreatedAt,

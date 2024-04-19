@@ -1,5 +1,3 @@
-console.log('item.js chargé');
-
 document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const taskId = urlParams.get('id');
@@ -8,16 +6,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (taskId) {
         const taskDetails = JSON.parse(localStorage.getItem('taskDetails'));
-
         console.log(taskDetails);
 
         const mastheadHeading = document.querySelector('.masthead-heading');
         mastheadHeading.textContent = taskDetails.title;
-
-        const title = document.createElement('h3');
-        title.classList.add('card-title');
-        title.textContent = `${taskDetails.title}`;
-        title.style.color = 'black';
 
         const appDiv = document.getElementById('app');
         appDiv.style.display = 'flex';
@@ -44,9 +36,9 @@ document.addEventListener('DOMContentLoaded', () => {
         is_complete.classList.add('card-text');
         is_complete.textContent = `Terminée : ${taskDetails.isComplete ? 'Oui' : 'Non'}`;
         if (taskDetails.isComplete) {
-            is_complete.classList.add('text-success'); // Couleur verte pour "Oui"
+            is_complete.classList.add('text-success');
         } else {
-            is_complete.classList.add('text-danger'); // Couleur rouge pour "Non"
+            is_complete.classList.add('text-danger');
         }
 
         StatusContainer.appendChild(is_complete);
@@ -56,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
             return new Date(dateString).toLocaleString('fr-FR', options);
         }
+
         const createdAt = document.createElement('p');
         createdAt.textContent = `Créée : ${formatDate(taskDetails.createdAt)}`;
         createdAt.style.color = 'purple';
