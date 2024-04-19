@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', function () {
     fetch('http://localhost:3000/todos')
         .then(response => response.json())
         .then(tasks => {
-            console.log(tasks[0].todolist);
             const appDiv = document.getElementById('app');
 
             const totalTasks = tasks[0].todolist.length;

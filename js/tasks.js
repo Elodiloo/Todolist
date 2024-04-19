@@ -2,7 +2,6 @@ fetch('http://localhost:3000/todos')
     .then((response) => {
         response.json()
             .then((datas) => {
-                console.log(datas[0].todolist);
                 afficherElementsSurPage(datas[0].todolist);
             })
             .catch(error => console.error("Erreur:", error));
@@ -76,7 +75,6 @@ form.addEventListener('submit', function (event) {
     };
 
     const status = newTask.is_complete ? 'Terminée' : 'À faire';
-    console.log(`Statut de la nouvelle tâche : ${status}`)
 
     fetch('http://localhost:3000/todos', {
         method: 'POST',
@@ -87,7 +85,6 @@ form.addEventListener('submit', function (event) {
     })
         .then(response => response.json())
         .then(datas => {
-            console.log('Tâche ajoutée :', datas);
             afficherElementsSurPage([datas]);
         })
         .catch(error => console.error('Erreur :', error));
@@ -102,9 +99,9 @@ function afficherElementsSurPage(elements) {
         taskCard.classList.add('card', 'mb-3');
 
         if (element.is_complete) {
-            taskCard.classList.add('bg-white');
+            taskCard.classList.add('bg-white', 'border-success');
         } else {
-            taskCard.classList.add('bg-warning');
+            taskCard.classList.add('bg-light', 'border-danger');
         }
 
         const cardBody = document.createElement('div');
@@ -112,9 +109,9 @@ function afficherElementsSurPage(elements) {
 
         cardBody.addEventListener('mouseover', function () {
             if (element.is_complete) {
-                cardBody.style.backgroundColor = '#6e42c155';
+                cardBody.style.backgroundColor = '#1abc9c';
             } else {
-                cardBody.style.backgroundColor = '#F5F5F5';
+                cardBody.style.backgroundColor = '#ffc107';
             }
         });
 
