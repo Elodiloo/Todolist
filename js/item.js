@@ -14,38 +14,32 @@ document.addEventListener('DOMContentLoaded', () => {
         const mastheadHeading = document.querySelector('.masthead-heading');
         mastheadHeading.textContent = taskDetails.title;
 
+        const title = document.createElement('h3');
+        title.classList.add('card-title');
+        title.textContent = `${taskDetails.title}`;
+        title.style.color = 'black';
+
         const appDiv = document.getElementById('app');
         appDiv.style.display = 'flex';
         appDiv.style.flexDirection = 'column';
         appDiv.style.alignItems = 'center';
         appDiv.style.justifyContent = 'center';
 
-        // Création du conteneur principal pour les détails de la tâche avec la classe "card" de Bootstrap
         const taskCard = document.createElement('div');
         taskCard.classList.add('card', 'text-center');
         taskCard.style.width = '60%';
 
-        // Ajout de classes de fond en fonction de l'état de la tâche
         if (taskDetails.isComplete) {
-            taskCard.classList.add('bg-white'); // Fond blanc pour une tâche terminée
+            taskCard.classList.add('bg-white');
         } else {
-            taskCard.style.backgroundColor = '#F5F5F5'; // Fond blanc cassé pour une tâche à faire ou non terminée
+            taskCard.style.backgroundColor = '#F5F5F5';
         }
 
-        // Création du contenu de la carte avec la classe "card-body" de Bootstrap
         const cardBody = document.createElement('div');
         cardBody.classList.add('card-body');
 
-        // Création du conteneur pour le titre de la tâche et "Terminée : Oui/Non"
-        const titleAndStatusContainer = document.createElement('div');
+        const StatusContainer = document.createElement('div');
 
-        // Titre de la tâche avec la classe "card-title" de Bootstrap
-        const title = document.createElement('h3');
-        title.classList.add('card-title');
-        title.textContent = `${taskDetails.title}`;
-        title.style.color = 'black';
-
-        // Statut "Terminée : Oui/Non" avec la classe "card-text" de Bootstrap
         const is_complete = document.createElement('h4');
         is_complete.classList.add('card-text');
         is_complete.textContent = `Terminée : ${taskDetails.isComplete ? 'Oui' : 'Non'}`;
@@ -55,12 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
             is_complete.classList.add('text-danger'); // Couleur rouge pour "Non"
         }
 
-        // Ajout du titre de la tâche et du statut "Terminée : Oui/Non" au conteneur
-
-        titleAndStatusContainer.appendChild(is_complete);
-
-        // Ajout du conteneur au contenu de la carte
-
+        StatusContainer.appendChild(is_complete);
         cardBody.appendChild(is_complete);
 
         function formatDate(dateString) {
@@ -100,23 +89,15 @@ document.addEventListener('DOMContentLoaded', () => {
         reopenButton.classList.add('btn', 'btn-warning');
         reopenButton.addEventListener('click', () => markAsReopened(taskId));
 
-
-        // Ajout des éléments au contenu de la carte
         cardBody.appendChild(createdAt);
         cardBody.appendChild(Tags);
-
-        // Ajout du contenu de la carte à la carte elle-même
         taskCard.appendChild(cardBody);
-
         buttonsContainer.appendChild(completeButton);
         buttonsContainer.appendChild(deleteButton);
         buttonsContainer.appendChild(reopenButton);
-
         taskCard.appendChild(buttonsContainer);
-
-        // Ajout de la carte à la division principale de l'application
         appDiv.appendChild(taskCard);
-        // Créer un bouton pour retourner à la liste des tâches
+
         const returnButton = document.createElement('button');
         returnButton.textContent = 'Retour à la liste';
         returnButton.classList.add('btn', 'btn-info');
@@ -124,8 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
         returnButton.addEventListener('click', () => {
             window.history.back();
         });
-
-
         appDiv.appendChild(returnButton);
 
     } else {

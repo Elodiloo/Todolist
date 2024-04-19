@@ -26,27 +26,30 @@ document.addEventListener('DOMContentLoaded', function () {
             const pendingTasksElement = document.getElementById('pending-tasks');
             pendingTasksElement.style.color = 'red';
 
-            // Ajout de l'espace entre les tâches à faire et la barre de progression
             const space = document.createElement('div');
-            space.style.height = '20px'; // Définissez la hauteur de l'espace selon vos besoins
+            space.style.height = '20px';
             appDiv.appendChild(space);
 
             const progressBarContainer = document.createElement('div');
             progressBarContainer.id = 'progress-bar-container';
-            progressBarContainer.style.width = '50%'; // Changer la largeur selon vos besoins
-            progressBarContainer.style.height = '40px'; // Changer la hauteur selon vos besoins
-            progressBarContainer.style.backgroundColor = 'red'; // Changer la couleur de fond selon vos besoins
+            progressBarContainer.style.width = '50%';
+            progressBarContainer.style.height = '40px';
+            progressBarContainer.style.backgroundColor = 'red';
+            progressBarContainer.style.borderRadius = '15px';
+            progressBarContainer.style.boxShadow = '0px 2px 5px rgba(0, 0, 0, 0.3)';
 
             const progressBar = document.createElement('div');
             progressBar.style.width = `${(completedTasks / totalTasks) * 100}%`;
             progressBar.style.height = '100%';
-            progressBar.style.backgroundColor = 'green'; // Changer la couleur de la jauge selon vos besoins
+            progressBar.style.background = 'linear-gradient(to right, #4caf50, #8bc34a)';
+            progressBar.style.borderRadius = '15px';
+
 
             progressBarContainer.appendChild(progressBar);
             appDiv.appendChild(progressBarContainer);
 
             const spaceAfterProgressBar = document.createElement('div');
-            spaceAfterProgressBar.style.height = '20px'; // Définissez la hauteur de l'espace selon vos besoins
+            spaceAfterProgressBar.style.height = '50px';
             appDiv.appendChild(spaceAfterProgressBar);
 
             appDiv.appendChild(listButton);
