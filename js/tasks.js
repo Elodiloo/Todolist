@@ -23,7 +23,6 @@ tagsInput.id = 'tags';
 tagsInput.placeholder = 'Tags (séparés par des virgules)';
 tagsInput.style.width = '85%';
 
-
 const submitButton = document.createElement('button');
 submitButton.type = 'submit';
 submitButton.textContent = 'Ajouter une tâche';
@@ -33,7 +32,6 @@ submitButton.style.marginLeft = '20px';
 form.appendChild(taskInput);
 form.appendChild(tagsInput);
 form.appendChild(submitButton);
-
 
 const appDiv = document.getElementById('app');
 appDiv.appendChild(form);
@@ -86,6 +84,7 @@ form.addEventListener('submit', function (event) {
         .then(response => response.json())
         .then(datas => {
             afficherElementsSurPage([datas]);
+            window.location.reload();
         })
         .catch(error => console.error('Erreur :', error));
 });
@@ -164,7 +163,7 @@ function afficherElementsSurPage(elements) {
                 tags: taskTags
             };
             localStorage.setItem('taskDetails', JSON.stringify(taskDetails));
-
+            localStorage.setItem('taskId', element.id);
             window.location.href = `item.html?id=${element.id}`;
         });
 
@@ -175,7 +174,6 @@ function afficherElementsSurPage(elements) {
         appDiv.appendChild(taskCard);
 
     });
-
 }
 
 

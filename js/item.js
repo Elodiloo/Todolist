@@ -1,6 +1,8 @@
+let taskId;
+
 document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
-    const taskId = urlParams.get('id');
+    taskId = urlParams.get('id');
 
     if (taskId) {
         const taskDetails = JSON.parse(localStorage.getItem('taskDetails'));
@@ -66,29 +68,32 @@ function createTaskCard(appDiv, taskDetails) {
     const buttonsContainer = document.createElement('div');
     buttonsContainer.style.display = 'flex';
     buttonsContainer.style.justifyContent = 'center';
-    buttonsContainer.style.marginBottom = '20px';
+    buttonsContainer.style.alignItems = 'center';
+    buttonsContainer.style.gap = '30px';
+    taskCard.appendChild(buttonsContainer);
 
-    const completeButton = document.createElement('button');
-    completeButton.textContent = 'Terminer';
-    completeButton.classList.add('btn', 'btn-success');
-    completeButton.style.marginRight = '30px';
-    completeButton.addEventListener('click', () => markAsComplete(taskId));
+    if (!taskDetails.isComplete) {
+        const completeButton = document.createElement('button');
+        completeButton.textContent = 'Terminer';
+        completeButton.classList.add('btn', 'btn-success');
+        completeButton.style.marginBottom = '30px';
+        completeButton.addEventListener('click', () => markAsComplete(taskId));
+        buttonsContainer.appendChild(completeButton);
+    } else {
+        const reopenButton = document.createElement('button');
+        reopenButton.textContent = 'Réouvrir';
+        reopenButton.classList.add('btn', 'btn-warning');
+        reopenButton.style.marginBottom = '30px';
+        reopenButton.addEventListener('click', () => markAsReopened(taskId));
+        buttonsContainer.appendChild(reopenButton);
+    }
 
     const deleteButton = document.createElement('button');
     deleteButton.textContent = 'Supprimer';
     deleteButton.classList.add('btn', 'btn-danger');
-    deleteButton.style.marginRight = '30px';
+    deleteButton.style.marginBottom = '30px';
     deleteButton.addEventListener('click', () => deleteTask(taskId));
-
-    const reopenButton = document.createElement('button');
-    reopenButton.textContent = 'Réouvrir';
-    reopenButton.classList.add('btn', 'btn-warning');
-    reopenButton.addEventListener('click', () => markAsReopened(taskId));
-
-    buttonsContainer.appendChild(completeButton);
     buttonsContainer.appendChild(deleteButton);
-    buttonsContainer.appendChild(reopenButton);
-    taskCard.appendChild(buttonsContainer);
 
     appDiv.appendChild(taskCard);
 }
@@ -99,7 +104,13 @@ function createReturnButton(appDiv) {
     returnButton.classList.add('btn', 'btn-info');
     returnButton.style.marginTop = '20px';
     returnButton.addEventListener('click', () => {
-        window.history.back();
+        const taskId = localStorage.getItem('taskId');
+        if (taskId) {
+            window.location.href = `tasks.html?id=${taskId}`;
+        } else {
+            window.history.back();
+        }
+
     });
     appDiv.appendChild(returnButton);
 }
@@ -110,6 +121,10 @@ function formatDate(dateString) {
 }
 
 function markAsComplete(taskId) {
+    const taskDetails = JSON.parse(localStorage.getItem('taskDetails'));
+    taskDetails.isComplete = true;
+    localStorage.setItem('taskDetails', JSON.stringify(taskDetails));
+
     fetch(`http://localhost:3000/todos/${taskId}`, {
         method: 'PUT',
         headers: {
@@ -119,11 +134,14 @@ function markAsComplete(taskId) {
     })
         .then(response => response.json())
         .then(data => {
+            window.location.reload();
         })
         .catch(error => console.error('Erreur :', error));
 }
 
 function deleteTask(taskId) {
+    localStorage.removeItem('taskDetails');
+
     fetch(`http://localhost:3000/todos/${taskId}`, {
         method: 'DELETE'
     })
@@ -137,6 +155,10 @@ function deleteTask(taskId) {
 }
 
 function markAsReopened(taskId) {
+    const taskDetails = JSON.parse(localStorage.getItem('taskDetails'));
+    taskDetails.isComplete = false;
+    localStorage.setItem('taskDetails', JSON.stringify(taskDetails));
+
     fetch(`http://localhost:3000/todos/${taskId}`, {
         method: 'PUT',
         headers: {
@@ -146,6 +168,7 @@ function markAsReopened(taskId) {
     })
         .then(response => response.json())
         .then(data => {
+            window.location.reload();
         })
         .catch(error => console.error('Erreur :', error));
 }
